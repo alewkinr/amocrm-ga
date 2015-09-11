@@ -11,6 +11,12 @@
 </head>
 <body>
 <script type="text/javascript">
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
@@ -30,8 +36,8 @@
         ga('set', 'dimension1', clientId); //запись clientId в custom dimension
     });
     ga('require', 'displayfeatures');
-    ga('set', 'campaignMedium', 'test_medium');
-    ga('set', 'campaignSource', 'test_src');
+    ga('set', 'campaignMedium', getParameterByName('utm_medium'));
+    ga('set', 'campaignSource', getParameterByName('utm_source'));
     ga('send', 'pageview');
 
 </script>
