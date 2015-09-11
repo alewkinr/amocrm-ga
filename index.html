@@ -11,12 +11,27 @@
 </head>
 <body>
 <script type="text/javascript">
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+function getUrl() {//получаем хост родителя iframe
+    var isInIframe = (parent !== window),
+        parentUrl = "";
+
+    if (isInIframe) {
+        parentUrl = document.referrer;
+    } else {
+	parentUrl = window.location;
     }
+
+    return parentUrl;
+}
+
+
+       function getParameterByName(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+              results = regex.exec(getUrl());
+          return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+       }
+
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
@@ -38,6 +53,7 @@
     ga('require', 'displayfeatures');
     ga('set', 'campaignMedium', getParameterByName('utm_medium'));
     ga('set', 'campaignSource', getParameterByName('utm_source'));
+    ga('set', 'campaignName', getParameterByName('utm_campaign'));
     ga('send', 'pageview');
 
 </script>
