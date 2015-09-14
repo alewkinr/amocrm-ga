@@ -41,6 +41,18 @@
         function sendEvent(options) {
           ga('send', 'event', options.ec || 'note set', options.ea || 'note set', options.el || 'note set');
         }
+
+        function listener(event) {
+
+          alert( "получено: " + event.data );
+        }
+
+        if (window.addEventListener) {
+          window.addEventListener("message", listener);
+        } else {
+          // IE8
+          window.attachEvent("onmessage", listener);
+        }
     </script>
     <!-- End Google Analytics -->
 
